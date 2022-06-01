@@ -15,6 +15,7 @@ Games are fun. For some, games are like sports and getting better at the game in
 
 ### Tasks:
 
+* Create javascript playing board, modeled after wordle
 * Create Django models
   * Playable character (name, health points (?))
   * Inventory (swords, shields, books, first aid kits)
