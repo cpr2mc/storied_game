@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Storied</title>
+{% endblock %}
+
+{% block content %}
+<main class="justify-content-center">
+    
+    <div class="row mx-auto mt-4 align-middle">
+        <div class="col text-center">
+            <h3>Map</h3>
+            <canvas id="grid" width="200" height="200"></canvas>
+        </div>
+        <div class="col">
+            <h3 class="text-center">Gameplay</h3>
+            {{ story_tiles.first.prompt }}
+            {% for item in story_tiles %}
+            <p>>>> {{ item.prompt }}</p>
+            {% endfor %}
+            <div class="d-grid">
+                <button class="" id="nextPrompt">Next prompt!</button>
+            </div>
+        </div>
+        <div class="col text-center">
+            <h3>Stats</h3>
+        </div>
+    </div>
+    
+    
+    <script src="static/js/grid.js"></script>
+    <script>
+        function genStoryPrompts () {
+            // render via django template
+            var prompts = [
+            {% for item in story_tiles %}
+            "{{ item.prompt }}",
+            {% endfor %}
+            ]
+            var xy_coords = [
+            {% for item in story_tiles %}
+            ({{ item.x_coord }}, {{ item.y_coord }}),
+            {% endfor %}
+            ]
+            console.log(xy_coords)
+        }
+        genStoryPrompts ()
+    </script>
+</main>
+{% endblock %}
