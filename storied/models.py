@@ -1,4 +1,3 @@
-import datetime
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -6,10 +5,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Story(models.Model):
     name = models.CharField(max_length=200)
     play_date = models.DateTimeField(default=timezone.now)
+    owner = models.ForeignKey('auth.User', related_name='stories', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
-    
     class Meta:
         verbose_name_plural = 'Stories'
 
