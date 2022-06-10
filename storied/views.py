@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions, renderers, viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from storied.models import StoryTile, Story
@@ -15,17 +15,9 @@ def api_root(request, format=None):
         'story-tiles': reverse('storied:story-tiles', request=request, format=format)
     })
 
-class StoryRender(generics.GenericAPIView):
-    queryset = Story.objects.all()
-    renderer_classes = [renderers.StaticHTMLRenderer]
-
-    def get(self, request, *args, **kwargs):
-        story = self.get_object()
-        return Response(story.name)
-
-class StoryList(generics.ListCreateAPIView):
+class StoryViewSet(viewsets.ModelViewSet):
     '''
-    List all stories, or create a new story.
+    This viewset automatically provides 'list', 'create', 'retrieve', 'update', and 'destroy' actions.
     '''
     queryset = Story.objects.all()
     serializer_class = StorySerializer
@@ -34,34 +26,17 @@ class StoryList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class StoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    '''
-    List all stories, or create a new story.
-    '''
-    queryset = Story.objects.all()
-    serializer_class = StorySerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
-class StoryTileList(generics.ListCreateAPIView):
-    '''
-    List all story tiles, or create a new story tile.
-    '''
+class StoryTileViewSet(viewsets.ModelViewSet):
     queryset = StoryTile.objects.all()
     serializer_class = StoryTileSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class StoryTileDetail(generics.RetrieveUpdateDestroyAPIView):
-    '''
-    Retrieve, update or delete a code snippet.
-    '''
-    queryset = StoryTile.objects.all()
-    serializer_class = StoryTileSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class UserDetail(generics.RetrieveAPIView):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    '''
+    This viewset automatically provides 'list' and 'retrieve' actions for Users
+    '''
     queryset = User.objects.all()
     serializer_class = UserSerializer

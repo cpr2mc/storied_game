@@ -9,7 +9,7 @@ class StorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'play_date', 'owner']
 
 class StoryTileSerializer(serializers.ModelSerializer):
-    story = serializers.HyperlinkedRelatedField(view_name='storied:story-detail', read_only=True)
+    story = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = StoryTile
