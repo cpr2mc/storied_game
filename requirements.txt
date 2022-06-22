@@ -3,3 +3,5 @@ djangorestframework==3.13.1
 django-cors-headers==3.13.0
 djoser
 pip-tools
+django-on-heroku
+gunicorn
