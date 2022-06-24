@@ -14,8 +14,8 @@ class Story(models.Model):
 
 class StoryTile(models.Model):
 
-    x_coord = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(4), MinValueValidator(0)])
-    y_coord = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(4), MinValueValidator(0)])
+    x_coord = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(7), MinValueValidator(0)])
+    y_coord = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(7), MinValueValidator(0)])
     prompt = models.TextField()
     enemy_tile = models.BooleanField(default=False)
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='Tiles')
